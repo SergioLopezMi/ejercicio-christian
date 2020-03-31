@@ -1,12 +1,12 @@
 package com.sergio.coches.exception;
 
-public class objetoDuplicadoException extends Exception {
+public class ObjetoDuplicadoException extends Exception {
 	
 	private static final long serialVersionUID = 1L;
 	
 	private String message;
 	
-	public objetoDuplicadoException(String message) {		
+	public ObjetoDuplicadoException(String message) {		
 		this.message = message;
 	}
 	
