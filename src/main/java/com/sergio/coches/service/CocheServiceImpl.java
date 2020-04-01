@@ -22,7 +22,7 @@ public class CocheServiceImpl implements CocheService {
 		try {
 			if (matriculaIn != null && marcaIn != null && modeloIn != null && anyoFabricacionIn != null) {
 				// Se comprueba si existe el coche
-				cocheExistente(matriculaIn);
+				cocheRepository.cocheExistente(matriculaIn);
 
 				Coche coche = new Coche();
 				coche.setMatricula(matriculaIn);
@@ -47,14 +47,12 @@ public class CocheServiceImpl implements CocheService {
 	public void buscarCoche(String matriculaIn) {
 		if (matriculaIn != null) {
 			try {
-				encontrarCoche(matriculaIn);
+				cocheRepository.encontrarCoche(matriculaIn);
 
-				for (Coche coche : coches) {
-					if (coche.getMatricula().equals(matriculaIn)) {
-						String msg = coche.toString();
-						LOGGER.info(msg);
-					}
-				}
+				Coche coche = cocheRepository.find(matriculaIn);
+				String msg = coche.toString();
+				LOGGER.info(msg);
+
 			} catch (ObjetoNoEncontradoException noEncontradoEx) {
 				LOGGER.error(noEncontradoEx.getLocalizedMessage());
 			}
@@ -68,14 +66,11 @@ public class CocheServiceImpl implements CocheService {
 	public void eliminarCoche(String matriculaIn) {
 		if (matriculaIn != null) {
 			try {
-				encontrarCoche(matriculaIn);
+				cocheRepository.encontrarCoche(matriculaIn);
 
-				for (Coche coche : coches) {
-					if (coche.getMatricula().equals(matriculaIn)) {
-						coches.remove(coche);
-						LOGGER.info("Coche eliminado correctamente");
-					}
-				}
+				cocheRepository.delete(matriculaIn);
+				LOGGER.info("Coche eliminado correctamente");
+
 			} catch (ObjetoNoEncontradoException noEncontradoEx) {
 				LOGGER.error(noEncontradoEx.getLocalizedMessage());
 			}
@@ -88,26 +83,17 @@ public class CocheServiceImpl implements CocheService {
 	@Override
 	public void modificarCoche(String matriculaIn, String marcaIn, String modeloIn, Integer anyoFabricacionIn) {
 		if (matriculaIn != null) {
-			try {
-				encontrarCoche(matriculaIn);
+			Coche coche = new Coche();
+			coche = cocheRepository.find(matriculaIn);
+			if (marcaIn != null)
+				coche.setMarca(marcaIn);
 
-				for (Coche coche : coches) {
-					if (coche.getMatricula().equals(matriculaIn)) {
+			if (modeloIn != null)
+				coche.setModelo(modeloIn);
 
-						if (marcaIn != null)
-							coche.setMarca(marcaIn);
-
-						if (modeloIn != null)
-							coche.setModelo(modeloIn);
-
-						if (anyoFabricacionIn != null)
-							coche.setAnyoFabricacion(anyoFabricacionIn);
-					}
-				}
-			} catch (ObjetoNoEncontradoException noEncontradoEx) {
-				LOGGER.error(noEncontradoEx.getLocalizedMessage());
-			}
-
+			if (anyoFabricacionIn != null)
+				coche.setAnyoFabricacion(anyoFabricacionIn);
+			cocheRepository.modify(matriculaIn, coche);
 		} else {
 			LOGGER.warn("Matricula no especificada");
 		}

@@ -39,15 +39,31 @@ public class CocheRepositoryImpl implements CocheRepository {
 
 	@Override
 	public void delete(String matriculaIn) {
-
+		if (matriculaIn != null) {
+			for (Coche coche : coches) {
+				if (coche.getMatricula().equals(matriculaIn)) {
+					coches.remove(coche);
+				}
+			}
+		}
 	}
 
 	@Override
-	public void modify(String matriculaIn) {
-
+	public void modify(String matriculaIn, Coche cocheIn) {
+		if (matriculaIn != null) {
+			for (Coche coche : coches) {
+				if (coche.getMatricula().equals(matriculaIn)) {
+					coche = cocheIn;
+				}
+			}
+		}
 	}
 
-	private void cocheExistente(String matriculaIn) throws ObjetoDuplicadoException {
+	/*
+	 * Excepciones
+	 */
+	@Override
+	public void cocheExistente(String matriculaIn) throws ObjetoDuplicadoException {
 		for (Coche coche : coches) {
 			if (coche.getMatricula().equals(matriculaIn)) {
 				throw new ObjetoDuplicadoException("El coche ya existe");
@@ -55,7 +71,8 @@ public class CocheRepositoryImpl implements CocheRepository {
 		}
 	}
 
-	private void encontrarCoche(String matriculaIn) throws ObjetoNoEncontradoException {
+	@Override
+	public void encontrarCoche(String matriculaIn) throws ObjetoNoEncontradoException {
 		for (Coche coche : coches) {
 			if (coche.getMatricula().equals(matriculaIn)) {
 				throw new ObjetoNoEncontradoException("El coche no existe");
