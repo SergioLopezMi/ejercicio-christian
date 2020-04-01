@@ -1,20 +1,14 @@
 package com.sergio.coches.repository;
 
 import com.sergio.coches.domain.Coche;
-import com.sergio.coches.exception.ObjetoDuplicadoException;
-import com.sergio.coches.exception.ObjetoNoEncontradoException;
 
 public interface CocheRepository {
 
-	public void add(Coche coche);
+	public boolean add(Coche cocheIn);
 
-	public Coche find(String matriculaIn);
+	public Coche find(Coche cocheIn);
 
-	public void delete(String matriculaIn);
+	public boolean delete(Coche cocheIn);
 
-	public void modify(String matriculaIn, Coche coche);
-
-	public void cocheExistente(String matriculaIn) throws ObjetoDuplicadoException;
-
-	public void encontrarCoche(String matriculaIn) throws ObjetoNoEncontradoException;
+	public boolean modify(Coche cocheIn);
 }

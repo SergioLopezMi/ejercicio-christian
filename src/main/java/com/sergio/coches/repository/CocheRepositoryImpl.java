@@ -6,8 +6,6 @@ import java.util.List;
 import org.springframework.stereotype.Repository;
 
 import com.sergio.coches.domain.Coche;
-import com.sergio.coches.exception.ObjetoDuplicadoException;
-import com.sergio.coches.exception.ObjetoNoEncontradoException;
 
 @Repository("cocheRepository")
 public class CocheRepositoryImpl implements CocheRepository {
@@ -19,65 +17,63 @@ public class CocheRepositoryImpl implements CocheRepository {
 	}
 
 	@Override
-	public void add(Coche coche) {
-		if (coche != null) {
-			coches.add(coche);
+	public boolean add(Coche cocheIn) {
+		boolean anyadido = false;
+
+		if (cocheIn != null) {
+			coches.add(cocheIn);
+			anyadido = true;
 		}
+
+		return anyadido;
 	}
 
 	@Override
-	public Coche find(String matriculaIn) {
-		Coche cocheEncontrado = new Coche();
-		if (matriculaIn != null) {
+	public Coche find(Coche cocheIn) {
+		Coche cocheEncontrado = null;
+
+		if (cocheIn != null) {
 			for (Coche coche : coches) {
-				if (coche.getMatricula().equals(matriculaIn))
+				if (coche.getMatricula().equals(cocheIn.getMatricula())) {
 					cocheEncontrado = coche;
+					break;
+				}
 			}
 		}
 		return cocheEncontrado;
 	}
 
 	@Override
-	public void delete(String matriculaIn) {
-		if (matriculaIn != null) {
+	public boolean delete(Coche cocheIn) {
+		boolean eliminado = false;
+
+		if (cocheIn != null) {
 			for (Coche coche : coches) {
-				if (coche.getMatricula().equals(matriculaIn)) {
+				if (coche.getMatricula().equals(cocheIn.getMatricula())) {
 					coches.remove(coche);
+					eliminado = true;
+					break;
 				}
 			}
 		}
+
+		return eliminado;
 	}
 
 	@Override
-	public void modify(String matriculaIn, Coche cocheIn) {
-		if (matriculaIn != null) {
+	public boolean modify(Coche cocheIn) {
+		boolean modificado = false;
+		Integer contador = 0;
+		if (cocheIn != null) {
 			for (Coche coche : coches) {
-				if (coche.getMatricula().equals(matriculaIn)) {
-					coche = cocheIn;
+				if (coche.getMatricula().equals(cocheIn.getMatricula())) {
+					coches.add(contador, cocheIn);
+					modificado = true;
+					break;
 				}
+				contador++;
 			}
 		}
+		return modificado;
 	}
-
-	/*
-	 * Excepciones
-	 */
-	@Override
-	public void cocheExistente(String matriculaIn) throws ObjetoDuplicadoException {
-		for (Coche coche : coches) {
-			if (coche.getMatricula().equals(matriculaIn)) {
-				throw new ObjetoDuplicadoException("El coche ya existe");
-			}
-		}
-	}
-
-	@Override
-	public void encontrarCoche(String matriculaIn) throws ObjetoNoEncontradoException {
-		for (Coche coche : coches) {
-			if (coche.getMatricula().equals(matriculaIn)) {
-				throw new ObjetoNoEncontradoException("El coche no existe");
-			}
-		}
-	}
-
 }
