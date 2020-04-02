@@ -10,5 +10,5 @@ public interface CocheRepository {
 
 	public boolean delete(Coche cocheIn);
 
-	public boolean modify(Coche cocheIn);
+	public boolean modify(Coche cocheModificar, Coche cocheNuevo);
 }

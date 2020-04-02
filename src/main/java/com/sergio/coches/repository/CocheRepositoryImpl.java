@@ -20,10 +20,7 @@ public class CocheRepositoryImpl implements CocheRepository {
 	public boolean add(Coche cocheIn) {
 		boolean anyadido = false;
 
-		if (cocheIn != null) {
-			coches.add(cocheIn);
-			anyadido = true;
-		}
+		anyadido = coches.add(cocheIn);
 
 		return anyadido;
 	}
@@ -32,12 +29,10 @@ public class CocheRepositoryImpl implements CocheRepository {
 	public Coche find(Coche cocheIn) {
 		Coche cocheEncontrado = null;
 
-		if (cocheIn != null) {
-			for (Coche coche : coches) {
-				if (coche.getMatricula().equals(cocheIn.getMatricula())) {
-					cocheEncontrado = coche;
-					break;
-				}
+		for (Coche coche : coches) {
+			if (coche.equals(cocheIn)) {
+				cocheEncontrado = coche;
+				break;
 			}
 		}
 		return cocheEncontrado;
@@ -47,13 +42,10 @@ public class CocheRepositoryImpl implements CocheRepository {
 	public boolean delete(Coche cocheIn) {
 		boolean eliminado = false;
 
-		if (cocheIn != null) {
-			for (Coche coche : coches) {
-				if (coche.getMatricula().equals(cocheIn.getMatricula())) {
-					coches.remove(coche);
-					eliminado = true;
-					break;
-				}
+		for (Coche coche : coches) {
+			if (coche.equals(cocheIn)) {
+				eliminado = coches.remove(coche);
+				break;
 			}
 		}
 
@@ -61,18 +53,13 @@ public class CocheRepositoryImpl implements CocheRepository {
 	}
 
 	@Override
-	public boolean modify(Coche cocheIn) {
+	public boolean modify(Coche cocheModificar, Coche cocheNuevo) {
 		boolean modificado = false;
-		Integer contador = 0;
-		if (cocheIn != null) {
-			for (Coche coche : coches) {
-				if (coche.getMatricula().equals(cocheIn.getMatricula())) {
-					coches.add(contador, cocheIn);
-					modificado = true;
-					break;
-				}
-				contador++;
-			}
+
+		int posCocheAModificar = coches.indexOf(cocheModificar);
+
+		if (coches.set(posCocheAModificar, cocheNuevo) != null) {
+			modificado = true;
 		}
 		return modificado;
 	}
