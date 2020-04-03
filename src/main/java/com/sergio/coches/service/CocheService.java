@@ -6,7 +6,7 @@ import com.sergio.coches.exception.ObjetoNoEncontradoException;
 
 public interface CocheService {
 
-	public boolean crearCoche(String matriculaIn, String marcaIn, String modeloIn, Integer anyoFabricacionIn)
+	public Coche crearCoche(String matriculaIn, String marcaIn, String modeloIn, Integer anyoFabricacionIn)
 			throws ObjetoDuplicadoException;
 
 	public Coche buscarCoche(Coche cocheIn) throws ObjetoNoEncontradoException;

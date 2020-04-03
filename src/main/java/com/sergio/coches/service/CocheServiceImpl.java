@@ -18,16 +18,16 @@ public class CocheServiceImpl implements CocheService {
 	private static final String COCHE_DUPLICADO = "El coche ya existe";
 
 	@Override
-	public boolean crearCoche(String matriculaIn, String marcaIn, String modeloIn, Integer anyoFabricacionIn)
+	public Coche crearCoche(String matriculaIn, String marcaIn, String modeloIn, Integer anyoFabricacionIn)
 			throws ObjetoDuplicadoException {
-		boolean cocheCreado = false;
+		Coche cocheCreado = null;
 
 		if (matriculaIn != null && marcaIn != null && modeloIn != null && anyoFabricacionIn != null) {
 
 			Coche coche = new Coche();
 			coche.setMatricula(matriculaIn);
 			coche.setMarca(marcaIn);
-			coche.setMatricula(matriculaIn);
+			coche.setModelo(modeloIn);
 			coche.setAnyoFabricacion(anyoFabricacionIn);
 
 			if (cocheRepository.find(coche) == null) {

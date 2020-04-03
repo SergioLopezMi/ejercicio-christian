@@ -17,12 +17,16 @@ public class CocheRepositoryImpl implements CocheRepository {
 	}
 
 	@Override
-	public boolean add(Coche cocheIn) {
-		boolean anyadido = false;
+	public Coche add(Coche cocheIn) {
 
-		anyadido = coches.add(cocheIn);
+		Coche cocheAnyadido = null;
 
-		return anyadido;
+		if (coches.add(cocheIn)) {
+			cocheAnyadido = cocheIn;
+		}
+
+		return cocheAnyadido;
+
 	}
 
 	@Override
